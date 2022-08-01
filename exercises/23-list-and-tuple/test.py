@@ -1,6 +1,13 @@
 import io, sys, os, pytest, json, mock
 path = os.path.dirname(os.path.abspath(__file__))+'/app.py'
 
+@pytest.mark.it('The output should be a tuple or array that contains the values')
+def test_output_type(capsys, app):
+    fake_input = ["34,67,55,33,12,98"] #fake input
+    with mock.patch('builtins.input', lambda x: fake_input.pop()):
+        app()
+        captured = capsys.readouterr()
+        assert captured.out[0] == '(' or captured.out[0] == '['
 
 @pytest.mark.it('The output should be the expected for this solution')
 def test_output(capsys, app):
